@@ -1,0 +1,24 @@
+.root {
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    background-color: #ffffff;
+    box-shadow: var(--shadow-1);
+}
+
+.title {
+    align-items: center;
+    color: var(--color-black);
+    cursor: pointer;
+    display: flex;
+    gap: var(--gap-4);
+    margin: 0 var(--margin-5);
+}
+
+.button {
+    margin: 0 var(--margin-5);
+}

@@ -1,0 +1,32 @@
+.root {
+    background-color: var(--color-light-grey);
+}
+
+.pagesSection {
+    align-items: center;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    padding: var(--margin-10) 0 80px;
+}
+
+.controlsWrapper {
+    height: 40px;
+}
+
+.formControl {
+    width: 300px;
+}
+
+.dateRange {
+    font-size: 14px;
+    height: 36px;
+    width: 300px;
+}
+
+.bar {
+    font-size: 20px;
+    height: 70vh;
+    margin-top: var(--margin-10);
+    max-width: 90vw;
+}

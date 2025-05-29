@@ -1,0 +1,7 @@
+.badge {
+    bottom: -20px;
+    cursor: pointer;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+}

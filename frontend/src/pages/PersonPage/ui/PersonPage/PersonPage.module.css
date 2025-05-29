@@ -1,0 +1,36 @@
+.root {
+    background-color: var(--color-light-grey);
+}
+
+.pagesSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--margin-10) 0 80px;
+    color: black;
+}
+
+.header {
+    background-color: var(--color-white);
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-1);
+    margin-bottom: var(--margin-3);
+    padding: var(--margin-4) var(--margin-6);
+    width: 1000px;
+}
+
+.headerTitle {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    white-space: nowrap;
+}
+
+.badge {
+    bottom: var(--margin-2);
+    top: var(--margin-2);
+}
+
+.avatarsWrapper {
+    margin-top: var(--margin-2);
+}

@@ -1,0 +1,1 @@
+endpoint_to_send_preds: "http://api:3052/add-posts-attributes"

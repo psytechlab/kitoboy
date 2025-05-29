@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "jsx": "react-jsx",
+        "module": "CommonJs",
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "strict": true,
+        "useUnknownInCatchVariables": false,
+        "target": "es2019",
+        "resolveJsonModule": true,
+        "isolatedModules": false,
+        "noEmit": true,
+        "typeRoots": ["node_modules/@types"],
+        "types": ["node"],
+        "baseUrl": ".",
+        "paths": {
+            "src/*": ["./src/*"]
+        }
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", ".vite"],
+    "references": [
+        {
+            "path": "./tsconfig.app.json"
+        },
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ]
+}

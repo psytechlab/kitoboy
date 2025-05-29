@@ -1,0 +1,10 @@
+.filterButtonContainer {
+    text-align: right;
+    width: 1000px;
+}
+
+.filterButton {
+    color: var(--color-main);
+    margin-bottom: var(--margin-3);
+    margin-right: var(--margin-9);
+}

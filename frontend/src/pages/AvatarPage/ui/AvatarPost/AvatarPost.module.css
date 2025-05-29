@@ -1,0 +1,44 @@
+.post {
+    background-color: var(--color-white);
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-1);
+    padding: var(--margin-4) var(--margin-5) var(--margin-2);
+    width: 1000px;
+
+    & + & {
+        margin-top: var(--margin-5);
+    }
+}
+
+.postContentContainer {
+    display: flex;
+    gap: var(--margin-5);
+    text-align: left;
+}
+
+.postTimestamp {
+    color: var(--color-grey);
+    min-width: 140px;
+}
+
+.postAttributesContainer {
+    margin-top: var(--margin-2);
+    text-align: left;
+}
+
+.attribute {
+    margin-right: var(--margin-1);
+    margin-bottom: var(--gap-3);
+
+    button {
+        cursor: pointer;
+    }
+}
+
+.addAttributeButton {
+    cursor: pointer;
+}
+
+.submitAttributeButton {
+    margin-top: var(--margin-3);
+}

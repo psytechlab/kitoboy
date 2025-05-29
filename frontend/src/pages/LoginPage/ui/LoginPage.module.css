@@ -1,0 +1,10 @@
+.root {
+    background-color: var(--color-white);
+    border-radius: var(--radius-3);
+    width: 450px;
+    padding: var(--margin-4) var(--margin-4);
+}
+
+.formControl {
+    padding: var(--margin-1) 0;
+}

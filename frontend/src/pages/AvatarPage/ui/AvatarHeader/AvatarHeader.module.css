@@ -1,0 +1,53 @@
+.header {
+    background-color: var(--color-white);
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-1);
+    margin-bottom: var(--margin-3);
+    min-height: 80px;
+    padding: var(--margin-4) 80px;
+    width: 1000px;
+}
+
+.headerTitle {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    white-space: nowrap;
+}
+
+.loginWrapper {
+    display: flex;
+}
+
+.loginLink {
+    margin-left: var(--margin-1);
+}
+
+.pageAttributesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.pageAttributesButton {
+    color: var(--color-main);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: underline dotted;
+    text-underline-position: under;
+    text-decoration-thickness: 1px;
+}
+
+.attributesContainer {
+    text-align: left;
+}
+
+.attribute {
+    margin-right: var(--margin-1);
+    margin-bottom: var(--gap-3);
+
+    button {
+        cursor: pointer;
+    }
+}

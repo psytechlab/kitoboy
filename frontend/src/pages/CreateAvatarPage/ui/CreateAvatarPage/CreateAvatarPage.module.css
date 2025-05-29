@@ -1,0 +1,58 @@
+.root {
+    background-color: var(--color-light-grey);
+}
+
+.pagesSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--margin-10) 0 80px;
+    color: black;
+}
+
+.headerTitle {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--margin-8);
+}
+
+.formWrapper {
+    background-color: var(--color-white);
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-1);
+    margin-bottom: var(--margin-3);
+    padding: var(--margin-4) var(--margin-6) var(--margin-6);
+    width: 1000px;
+}
+
+.fileUploadLabel {
+    display: flex;
+    margin-bottom: var(--gap-3);
+}
+
+.fileUpload {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: var(--margin-1);
+}
+
+.uploadedFiles > li {
+    background-color: #f4f4f5;
+    border-color: var(--color-main);
+    max-height: 38px;
+}
+
+.formControl {
+    padding: var(--margin-1) 0;
+}
+
+.tab {
+    cursor: pointer;
+}
+
+.submitButtonWrapper {
+    display: flex;
+    margin-top: var(--margin-4);
+}

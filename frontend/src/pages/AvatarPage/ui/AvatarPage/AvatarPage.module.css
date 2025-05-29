@@ -1,0 +1,11 @@
+.root {
+    background-color: var(--color-light-grey);
+}
+
+.pagesSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--margin-10) 0 80px;
+    color: black;
+}
