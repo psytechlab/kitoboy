@@ -1,1 +1,3 @@
-endpoint_to_send_preds: "http://api:3052/add-posts-attributes"
+endpoint_to_send_preds: "http://api:3052/add-posts-attributes" # address of API endpoint where to send back texts predictions and colors.
+irrelevant_class_name: "нерелевантный" # name of irrelevant class through the predictions. It's better to map several irrelevant names into one. 
+separator: ";" # the separator of the multilabel classes.

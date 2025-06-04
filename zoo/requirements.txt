@@ -4,3 +4,4 @@ pydantic==2.10.6
 pydantic_core==2.27.2
 requests==2.32.3
 requests-toolbelt==1.0.0
+pytest==8.3.5

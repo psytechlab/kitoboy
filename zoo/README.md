@@ -1,8 +1,16 @@
 # kitoboy-zoo
 
-Модуль выполняет роль концентратора для тритон-сервисов и позволяет пользователям получать предсказания для текстов от этих сервисов.
+Сервис выполняет роль концентратора для тритон-сервисов и позволяет пользователям получать предсказания для текстов от этих сервисов.
 
 # Запуск
+
+## Bare metal
+
+```bash
+$ fastapi dev app/main.py
+```
+
+## Docker
 
 1. Необходимо собрать докер-образ командой
 ```
@@ -20,9 +28,20 @@ $ cp ~/config/*  /etc/kitoboy-zoo
 $ docker container run -p8000:8000 -v /etc/kitoboy-zoo:/configs kitoboy-zoo:latest
 ```
 
-# Пример запроса
+# Примеры запросов
 
 ```
-$ curl -X POST http://localhost:8000/predict_on_batch -H "Content-Type: application/json" -d '{"texts":[{"text_id": 1, "text": "text1"}, {"text_id": 2, "text":"text2"}, {"text_id": 3, "text":"text3"}]}'
-$ curl -X GET http://localhost:8000/test_get -H "Content-Type: application/json"
+$ curl -X POST http://localhost:8000/predict_on_batch -H "Content-Type: application/json" -d '{"texts":[{"text_id": "1", "text": "text1"}, {"text_id": 2, "text":"text2"}, {"text_id": 3, "text":"text3"}]}'
+$ curl -X POST http://localhost:8000/predict_on_text -H "Content-Type: application/json" -d '{"text_list":["я люблю жизнь", "я запутался, не знаю, что делать, помогите мне", "test3"]}'                                                                                                                                             
 ```
+
+Детальное описание API см. http://localhost:8000/docs.
+
+# Конфигурационные файлы
+
+Здесь представлен список файлов и их описание. Назначение настроек см. в комментариях в самих файлах.
+
+* config.yml - главный конфигурациооный файл.
+* triton_services.yml - файл с адресами Тритон-сервисов, к котором попытается присоединиться сервис при старте. Заполнение опциональное.
+* mapping.yml - файл с отображением имен классов. Ключи - это названия классов, которые поступают от модели, значения - тьюплы с новыми названием класса и хекс-кодом цвета (необходимо для платформы).
+
