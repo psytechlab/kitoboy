@@ -34,7 +34,7 @@ export async function fetchApi<T>({
         };
     }
 
-    return fetchKitoboy<T>(`http://localhost:3052/${path}`, {
+    return fetchKitoboy<T>(`http://${process.env.APP_HOST}:3052/${path}`, {
         method,
         body,
         headers,
