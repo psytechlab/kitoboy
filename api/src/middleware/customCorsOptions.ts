@@ -1,7 +1,7 @@
 export const customCorsOptions = {
     origin: (origin: string | undefined, callback: Function) => {
         const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(' ');
-        const appHostname = process.env.APP_HOST;
+        const appHostname = process.env.VITE_APP_HOST;
 
         if (
             !origin ||
