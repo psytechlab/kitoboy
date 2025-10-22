@@ -1,11 +1,11 @@
 import psycopg2
 
 DB_CONFIG = {
-    "dbname": "kitiboy_db",         # Имя базы данных
+    "dbname": "kitoboy_db",         # Имя базы данных
     "user": "kitoboy_user",         # Имя пользователя
-    "password": "",   # Пароль
+    "password": "mysecretpassword",   # Пароль
     "host": "127.0.0.1",           # Адрес сервера
-    "port": "5432"            # Порт PostgreSQL
+    "port": "8080"            # Порт PostgreSQL
 }
 
 def db_connect():

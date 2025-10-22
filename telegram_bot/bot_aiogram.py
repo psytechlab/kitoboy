@@ -157,9 +157,9 @@ if __name__ == "__main__":
     DB_CONFIG = {
         "database": "kitoboy_db",         # Имя базы данных
         "user": "kitoboy_user",         # Имя пользователя
-        "password": "",   # Пароль
+        "password": "mysecretpassword",   # Пароль
         "host": "127.0.0.1",           # Адрес сервера
-        "port": "5432"            # Порт PostgreSQL
+        "port": "8080"            # Порт PostgreSQL
         }
     bot = TelegramBot(TOKEN, API_URL, DB_CONFIG)
     asyncio.run(bot.run())
