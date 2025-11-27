@@ -1,0 +1,123 @@
+services:
+  # Контейнер с фронтом
+  frontend:
+    build:
+      context: ./frontend/
+      target: production
+    tty: true
+    working_dir: /opt/frontend
+    volumes:
+      - ./frontend:/opt/frontend
+      - /opt/frontend/node_modules/
+    env_file:
+      - .env
+    ports:
+      - '5173:5173'
+    depends_on:
+      - api
+    networks:
+      - postgres
+    command: npm run dev
+
+  # Контейнер с API
+  api:
+    build:
+      context: ./api/
+      target: production
+    tty: true
+    working_dir: /opt/api
+    volumes:
+      - ./api:/opt/api
+      - /opt/api/node_modules/
+    env_file:
+      - .env
+    ports:
+      - '3052:3052'
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - postgres
+    command: npm run dev
+
+  # Контейнер с базой данных
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "psql -l -U ${DB_USER} | grep ${DB_NAME} | wc -l"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    networks:
+      - postgres
+
+  # Контейнер с nginx
+  nginx:
+    container_name: proxy_nginx
+    depends_on:
+      - api
+      - db
+      - pgadmin
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    restart: always
+    networks:
+      - postgres
+
+  # Контейнер с pgadmin
+  pgadmin:
+    container_name: pgadmin
+    depends_on:
+      - db
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PG_USER}
+      - PGADMIN_DEFAULT_PASSWORD=${PG_PASSWORD}
+    ports:
+      - '8200:80'
+    restart: always
+    networks:
+      - postgres
+  
+# Контейнер с классификатором эмоций
+  cedr_emotion:
+    image: tritoned_cedr_emotion_model:v1
+    ports:
+        - '5903:8000'
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:8000/v2/health/ready | exit 1"]
+        interval: 10s
+        timeout: 5s
+        retries: 20
+    networks:
+        - postgres
+
+  # Контейнер с zoo
+  zoo:
+    build:
+      context: ./zoo/
+    tty: true
+    ports:
+      - '8000:8000'
+    depends_on:
+      - api
+      - cedr_emotion
+    networks:
+      - postgres   
+
+networks:
+  postgres:
+    driver: bridge
