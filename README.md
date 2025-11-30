@@ -292,21 +292,30 @@ anger: [злость, "#ffffff"]
 
 Модуль поиска идентификационной информации является составной частью библиотеки и может быть легко расширен за счет предоставляемого класса `AbstractIE`. В качестве примера разберем, как можно интегрировать большие языковые модели (БЯМ) в модуль.
 
-Чтобы создать поисковик, необходимо отнаследоваться от класса `AbstractIE` и реализовать метод `make_prediction`. Допустим, имеется сервис `http://llm.ru`, который предоставляет доступ к БЯМ `llama-4-maverick` по OpenAI API. Было решено с помощью БЯМ искать любые упоминания данных российского паспорта. Тогда реализация класса БЯМ могла бы выглядеть следующим образом
+Чтобы создать поисковик, необходимо отнаследоваться от класса `AbstractIE` и реализовать метод `make_prediction`. Допустим, имеется сервис, который предоставляет доступ к БЯМ по OpenAI API. Было решено с помощью БЯМ искать номер российского паспорта. Для этого нужно сделать следующие шаги:
 
+1. Скачайте репозиторий и перейдите в папку.
+```bash
+$ git clone https://github.com/psytechlab/kitoboy-pie.git
+$ cd kitoboy-pie
+```
+2. Создайте файл `llm_ie.py` в папке ./app
+3. Вставьте в него следующий код и сохраните его (обратите внимание на токен):
 ```python
 import requests
 import json
+from app.information_extractor import AbstractIE
 
 class LlmIE(AbstractIE):
 
     def make_prediction(self, text: str) -> list[str]:
         json_data = {
-            'model': "llama-4-maverick",
+            'model': "deepseek-chat-v3.1",
+            'temperature': 0,
             'messages': [
                 {
                     'role': 'system',
-                    'content': "Определи, есть ли в тексте данные российского паспорта. В случае, если такие данные есть, напиши 'PASPORT'",
+                    'content': "Определи, есть ли в тексте номер российского паспорта. Варианты записи (в качестве примера будет использоваться цифра 1, но могут быть любые цифры): 11 11 111111, 1111 111111. В случае, если номер есть, напиши 'PASPORT', если нет, напиши 'NO_DATA'. Рассуждений писать не нужно, только две метки, описанные выше.",
                 },
                 {
                     'role': 'user',
@@ -314,17 +323,25 @@ class LlmIE(AbstractIE):
                 },
             ],
         }
-        response = requests.post("http://llm.ru//v1/chat/completions", 
-                                headers= {'Content-Type': 'application/json','Authorization': f"Bearer TOKEN",},
+        response_raw = requests.post("https://your-openai-compatible-endpoint.ru/v1/chat/completions", 
+                                headers= {'Content-Type': 'application/json',
+                                'Authorization': f"Bearer YOUR_TOKEN",},
                                 json=json_data)
-        return [json.loads(response_raw.text)["choices"][0]["message"]["content"]]
+        try:
+            response = json.loads(response_raw.text)["choices"][0]["message"]["content"]
+        except Exception as e:
+            print(e)
+        if response == "NO_DATA":
+            return []
+        elif response == "PASPORT":
+            return ["PASPORT"]
+        else:
+            raise ValueError(f"Unacceptable value from LLM:{response}")
 ```
-
-Для простоты можно сохранить этот класс в `./app/information_extraction.py` в конце.
-
-После сохранения в файле `./app/main.py` необходимо импортировать новый класс и инициализировать его объект
+4. В файле ./app/main.py внесите изменения, согласно следующему diff-файлу:
 ```diff
-+ from app.information_extraction import NavecIE, RegexIE, LlmIE
+from app.models import TritonRequest, OutputObject, TritonResponse
++ from app.llm_ie import LlmIE
 
 app = FastAPI()
 app.state.ie_list = [
@@ -332,7 +349,21 @@ app.state.ie_list = [
     RegexIE("configs/regex_ie.yml"),
 +   LlmIE()
 ]
-
 ```
-Таким образом, после запуска сервиса для каждого текста будет использоваться БЯМ для поиска паспортных данных в текстах.
+5. Убедитесь, что у вас установлена библиотека requests
+```bash
+$ pip install requests
+```
+5. Запустите сервис командой
+```bash
+$ fastapi dev app/main.py --port 5900
+```
+6. Сделайте следующий тестовый запрос (номер паспорта выдуман)
+```bash
+$ curl -X POST http://localhost:5900/v2/models/pie/infer -H "Content-Type: application/json" -d '{"inputs":[{"name":"text_input","shape":[1,1],"datatype":"BYTES","data":["помогите найти паспорт, его номер 98 54 111111"]}]}'
+```
+
+Таким образом, после запуска сервиса для каждого текста будет использоваться БЯМ для поиска номеров паспортов в текстах.
+
+Важно отметить, что код обработчика демонстрационный и не содержит сложной обработки ошибок, поэтому при использовании слабой модели высокая вероятность получить ошибку.
  
